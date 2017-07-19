@@ -11,7 +11,7 @@ public class GameMian : MonoBehaviour {
 
         //TTUIRoot root = TTUIRoot.Instance;
 
-        string gongshi = "10+2-2*2 ";
+        string gongshi = "10+2-2*2+100/23 ";
 
         Expression exp = new Expression(gongshi);
         double res= exp.calculate();
