@@ -17,6 +17,8 @@ public class UIQuestion : TTUIPage
     Text BCon;
     Text CCon;
     Text DCon;
+    Text score;
+    Text sec;
 
     public override void Awake(GameObject go)
     {
@@ -28,5 +30,27 @@ public class UIQuestion : TTUIPage
         BCon = go.transform.Find("ContextBg/B/Context").GetComponent<Text>();
         CCon = go.transform.Find("ContextBg/C/Context").GetComponent<Text>();
         DCon = go.transform.Find("ContextBg/D/Context").GetComponent<Text>();
+
+        score = go.transform.Find("ScoreBg/score").GetComponent<Text>();
+        sec = go.transform.Find("SecBg/sec").GetComponent<Text>();
+
+        score.text = 0.ToString();
+        sec.text = 3.ToString();
+
+        resetSec();
+    }
+
+    void resetSec()
+    {
+        NativeTimer timer = new NativeTimer(survtime, 0.01f, true, 300);
+        //NativeTimer timer = new NativeTimer(survtime, 0.01f);
+        timer.Start();
+    }
+
+    float t = 0f;
+    void survtime()
+    {
+        t += 0.01f;
+        sec.text = t.ToString("f2");
     }
 }
