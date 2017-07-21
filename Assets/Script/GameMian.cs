@@ -9,7 +9,8 @@ public class GameMian : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        //TTUIRoot root = TTUIRoot.Instance;
+        TTUIPage.ShowPage<UIQuestion>();
+
 
         string gongshi = "10+2-2*2+100/23 ";
 

@@ -114,6 +114,7 @@ public class MyWWW : IEnumerator, System.IDisposable
         }
     }
 
+    bool dispose = false;
     bool timeoutFlag = false;
 
     object IEnumerator.Current
@@ -139,7 +140,14 @@ public class MyWWW : IEnumerator, System.IDisposable
         }
         else
         {
-            result = _www.isDone == false;
+            if(dispose)
+            {
+                result = false;
+            }
+            else
+            {
+                result = _www.isDone == false;
+            }            
         }
 
         return result;
@@ -151,6 +159,7 @@ public class MyWWW : IEnumerator, System.IDisposable
 
     public void Dispose()
     {
+        dispose = true;
         _www.Dispose();
     }
 }
