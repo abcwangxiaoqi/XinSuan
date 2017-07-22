@@ -43,14 +43,18 @@ public class UIQuestion : TTUIPage
     void resetSec()
     {
         NativeTimer timer = new NativeTimer(survtime, 0.01f, true, 300);
-        //NativeTimer timer = new NativeTimer(survtime, 0.01f);
         timer.Start();
     }
 
-    float t = 0f;
+    float survTime = 3f;
     void survtime()
     {
-        t += 0.01f;
-        sec.text = t.ToString("f2");
+        survTime -= 0.01f;
+        sec.text = survTime.ToString("f2");
+        
+        if(System.Math.Abs(survTime) < 0.01)
+        {
+            Debug.Log("finish");
+        }
     }
 }
