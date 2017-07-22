@@ -1,0 +1,9 @@
+﻿[
+  {
+    "ID": "1",
+    "MathTemplate": "{0}+{1},{0}-{1}",
+    "NumsTemplate": "1.0f, 1.0f",
+    "Count": "10",
+    "everyScore": "10"
+  }
+]
