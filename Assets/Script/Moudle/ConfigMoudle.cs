@@ -1,6 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
+
+public class JsonConfig
+{
+    public static List<ConfigMoudle> Load()
+    {        
+        string json = Resources.Load<TextAsset>("config/config").text;
+        List<ConfigJsonMoudle> list = json.JsonTransferObject<List<ConfigJsonMoudle>>();
+
+        List<ConfigMoudle> res = new List<ConfigMoudle>();
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            res.Add(list[i].Transfer());
+        }
+
+        return res;
+    }
+}
 
 public class ConfigJsonMoudle
 {
@@ -56,7 +75,7 @@ public class ConfigMoudle
         }
 
 
-
+        msg = getQuestion();
 
 
         hasPush += 1;
@@ -75,14 +94,41 @@ public class ConfigMoudle
 
         #region 得到数字
 
-        List<float> nums = new List<float>(NumsTemplate.Count);
+        List<float> nums = new List<float>();
 
         for (int i = 0; i < NumsTemplate.Count; i++)
         {
+            float item = NumsTemplate[i];
 
+            int intCout = (int)item;
+
+            int decimalCout = (int)(item - intCout) * 10;
+
+            int zint = 0;
+            if(intCout>0)
+            {
+                zint = Random.Range((intCout - 1) * 10, intCout * 10 - 1);
+            }
+
+            float ddec = 0;
+            if(decimalCout>0)
+            {
+                ddec = Random.Range((decimalCout - 1) * 10, decimalCout * 10 - 1) / (decimalCout * 10);
+            }           
+
+            float res = zint + ddec;
+            nums.Add(res);
         }
 
         #endregion
+
+        object[] objs = new object[NumsTemplate.Count];
+        for (int i = 0; i < nums.Count; i++)
+        {
+            objs[i] = nums[i];
+        }
+
+        result = string.Format(math, objs);
 
         return result;
     }
