@@ -2,14 +2,21 @@
   {
     "ID": "1",
     "MathTemplate": "{0}+{1},{0}-{1}",
-    "NumsTemplate": "1.0, 1.0",
+    "NumsTemplate": "[1.0, 1.0]",
     "Count": "10",
     "everyScore": "10"
   },
   {
     "ID": "2",
     "MathTemplate": "{0}*{1},{0}/{1}",
-    "NumsTemplate": "1.0, 1.0",
+    "NumsTemplate": "[1.0, 1.0]",
+    "Count": "10",
+    "everyScore": "10"
+  },
+  {
+    "ID": "3",
+    "MathTemplate": "{0}*{1},{0}/{1}",
+    "NumsTemplate": "[-1.1,1.1]",
     "Count": "10",
     "everyScore": "10"
   }

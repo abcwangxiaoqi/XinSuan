@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using org.mariuszgromada.math.mxparser;
 
 public class JsonConfig
 {
@@ -39,13 +40,14 @@ public class ConfigMoudle
 {
     public ConfigMoudle(ConfigJsonMoudle moudle)
     {
+        this.ID = int.Parse(moudle.ID);
         this.Count = int.Parse(moudle.Count);
         this.everyScore = float.Parse(moudle.everyScore);
 
         string[] maths = moudle.MathTemplate.Split(',');
         this.MathTemplate = new List<string>(maths);
 
-        string[] nums = moudle.NumsTemplate.Split(',');
+        string[] nums = moudle.NumsTemplate.Replace("[",null).Replace("]",null).Split(',');
         List<float> fnums = new List<float>();
 
         for (int i = 0; i < nums.Length; i++)
@@ -83,12 +85,16 @@ public class ConfigMoudle
         return true;
     }
 
+    QeustionTemlate outQue(string math)
+    {
+        return null;
+    }
     string getQuestion()
     {
         string result = null;
 
         #region 得到公式
-        int mathIndex = Random.Range(0, MathTemplate.Count - 1);
+        int mathIndex = Random.Range(0, MathTemplate.Count);
         string math = MathTemplate[mathIndex];
         #endregion
 
@@ -102,22 +108,34 @@ public class ConfigMoudle
 
             int intCout = (int)item;
 
-            int decimalCout = (int)(item - intCout) * 10;
+            int decimalCout = Mathf.Abs((int)((item - intCout) * 10));
 
             int zint = 0;
             if(intCout>0)
             {
-                zint = Random.Range((intCout - 1) * 10, intCout * 10 - 1);
+                zint = Random.Range((intCout - 1) * 10, intCout * 10);
+            }
+            else if(intCout<0)
+            {
+                zint = Random.Range((intCout + 1) * 10, intCout * 10);
             }
 
             float ddec = 0;
             if(decimalCout>0)
             {
-                ddec = Random.Range((decimalCout - 1) * 10, decimalCout * 10 - 1) / (decimalCout * 10);
+                ddec = Random.Range((decimalCout - 1) * 10, decimalCout * 10) / (float)(decimalCout * 10);
             }           
 
-            float res = zint + ddec;
-            nums.Add(res);
+            if(zint>=0)
+            {
+                float res = zint + ddec;
+                nums.Add(res);
+            }
+            else
+            {
+                float res = zint - ddec;
+                nums.Add(res);
+            }
         }
 
         #endregion
@@ -132,4 +150,31 @@ public class ConfigMoudle
 
         return result;
     }
+}
+
+public class QeustionTemlate
+{
+    public QeustionTemlate(string _math)
+    {
+        this.math = _math;
+
+        #region result
+        Expression exp = new Expression(this.math);
+        double res = exp.calculate();
+        #endregion
+
+        double other1 = res - 1;
+        double other2 = res + 1;
+        double other3 = res + 10;
+
+        List<double> ops = new List<double>();
+        ops.Add(res);
+        ops.Add(other1);
+        ops.Add(other2);
+        ops.Add(other3);
+    }
+
+    public int rightIndex { get; private set; }
+    public string math { get; private set; }
+    public List<string> options { get; private set; }
 }

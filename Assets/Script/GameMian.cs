@@ -20,7 +20,6 @@ public class GameMian : MonoBehaviour {
             string mathStr = null;
             if (list[index].next(out mathStr))
             {
-              //  Debug.Log(mathStr);
                 Expression exp = new Expression(mathStr);
                 double res = exp.calculate();
                 Debug.Log(mathStr+"="+res);
